@@ -1,0 +1,185 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.explore-page {
+  min-height: 100vh;
+  background: #050711;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  padding: 30px 7%;
+}
+
+/* NAVIGATION */
+
+.explore-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 25px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #a9b0c5;
+}
+
+.back-home {
+  text-decoration: none;
+  color: #c7ff35;
+  transition: 0.3s;
+}
+
+.back-home:hover {
+  color: white;
+  transform: translateX(-4px);
+}
+
+/* HEADING */
+
+.explore-heading {
+  text-align: center;
+  padding: 90px 0 65px;
+}
+
+.explore-eyebrow {
+  color: #c7ff35;
+  font-size: 11px;
+  letter-spacing: 5px;
+  margin-bottom: 20px;
+}
+
+.explore-heading h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(32px, 5vw, 65px);
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.explore-heading h1 span {
+  color: #dc546f;
+}
+
+.explore-intro {
+  max-width: 550px;
+  margin: 22px auto 0;
+  color: #aab0c1;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* DESTINATION CARDS */
+
+.destination-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  padding-bottom: 80px;
+}
+
+.destination-card {
+  position: relative;
+  height: 370px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #101525;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.destination-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+  opacity: 0.8;
+}
+
+.destination-card:hover img {
+  transform: scale(1.1);
+}
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 30px;
+  background: linear-gradient(
+    to top,
+    rgba(2, 5, 15, 0.98),
+    rgba(2, 5, 15, 0.2) 65%,
+    transparent
+  );
+}
+
+.planet-tag {
+  color: #c7ff35;
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.card-overlay h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 27px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.card-overlay p {
+  color: #d0d4e0;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.discover-link {
+  color: #c7ff35;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+/* FOOTER */
+
+.explore-footer {
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding: 25px 0;
+  display: flex;
+  justify-content: space-between;
+  color: #858da3;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+  .destination-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .destination-card {
+    height: 320px;
+  }
+
+  .explore-heading {
+    padding: 65px 0 45px;
+  }
+
+  .explore-footer {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .explore-nav {
+    font-size: 8px;
+  }
+}
