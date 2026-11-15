@@ -1,0 +1,357 @@
+/* Moon map + timeline overlay (opened from the Moon card on the Explore page) */
+
+.mm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  background: #050711;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  animation: mm-in 0.35s ease both;
+}
+
+@keyframes mm-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+.mm-stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff, transparent),
+    radial-gradient(1px 1px at 78% 12%, #cfd8ff, transparent),
+    radial-gradient(1.5px 1.5px at 34% 72%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 66%, #cfd8ff, transparent),
+    radial-gradient(1px 1px at 58% 38%, #fff, transparent),
+    radial-gradient(1px 1px at 6% 84%, #fff, transparent);
+  opacity: 0.55;
+}
+
+.mm-inner {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 26px clamp(16px, 5vw, 56px) 48px;
+}
+
+.mm-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: "Orbitron", sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #a9b0c5;
+}
+
+.mm-close {
+  background: none;
+  border: 1px solid rgba(199, 255, 53, 0.45);
+  color: #c7ff35;
+  font: inherit;
+  letter-spacing: 2px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.mm-close:hover { background: #c7ff35; color: #050711; }
+
+.mm-head { text-align: center; padding: 44px 0 34px; }
+.mm-eyebrow { color: #c7ff35; font-size: 11px; letter-spacing: 5px; margin-bottom: 16px; }
+.mm-head h2 {
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(28px, 4.6vw, 56px);
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+.mm-head h2 span { color: #c7ff35; }
+.mm-sub {
+  max-width: 640px;
+  margin: 18px auto 0;
+  color: #a9b0c5;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* ---------- stage: map + detail ---------- */
+
+.mm-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.mm-mapcard {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #02030a;
+  display: flex;
+  flex-direction: column;
+}
+
+.mm-map {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  min-height: 280px;
+  background: #02030a;
+  outline: none;
+}
+
+.mm-chip {
+  position: absolute;
+  z-index: 500;
+  top: 14px;
+  right: 14px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(5, 7, 17, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-family: "Orbitron", sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #c7ff35;
+  pointer-events: none;
+}
+
+.mm-legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  color: #a9b0c5;
+}
+.mm-legend li { display: flex; align-items: center; gap: 7px; }
+.mm-legend span { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+/* leaflet bits */
+.mm-map.leaflet-container { background: #02030a; font-family: "Inter", sans-serif; }
+.mm-map .leaflet-control-attribution {
+  background: rgba(5, 7, 17, 0.8);
+  color: #a9b0c5;
+  font-size: 10px;
+}
+.mm-map .leaflet-control-attribution a { color: #c7ff35; }
+.mm-map .leaflet-bar a {
+  background: rgba(5, 7, 17, 0.85);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.mm-map .leaflet-bar a:hover { background: #c7ff35; color: #050711; }
+.mm-map .leaflet-tooltip {
+  background: #050711;
+  color: #fff;
+  border: 1px solid #c7ff35;
+  font-family: "Orbitron", sans-serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+.mm-map .leaflet-tooltip-top::before { border-top-color: #c7ff35; }
+
+.mm-pin-wrap { background: none; border: none; }
+.mm-pin {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 5px;
+  border-radius: 50%;
+  background: var(--c);
+  border: 2px solid #050711;
+  box-shadow: 0 0 0 1px var(--c), 0 0 10px var(--c);
+  transition: transform 0.2s;
+}
+.mm-pin-wrap:hover .mm-pin { transform: scale(1.25); }
+.mm-pin-wrap.is-active .mm-pin {
+  transform: scale(1.35);
+  animation: mm-pulse 1.8s ease-out infinite;
+}
+@keyframes mm-pulse {
+  0% { box-shadow: 0 0 0 1px var(--c), 0 0 0 0 var(--c); }
+  100% { box-shadow: 0 0 0 1px var(--c), 0 0 0 16px transparent; }
+}
+
+/* ---------- detail card ---------- */
+
+.mm-detail {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  padding: 24px;
+  background: linear-gradient(160deg, rgba(20, 26, 60, 0.7), rgba(8, 10, 24, 0.9));
+  display: flex;
+  flex-direction: column;
+  animation: mm-card 0.35s ease both;
+}
+@keyframes mm-card {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.mm-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.mm-badge {
+  font-family: "Orbitron", sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #050711;
+  background: var(--c);
+}
+.mm-badge-ghost { background: none; color: #a9b0c5; border: 1px solid rgba(255, 255, 255, 0.25); }
+
+.mm-date { color: #a9b0c5; font-size: 13px; letter-spacing: 1px; }
+.mm-detail h3 {
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(20px, 2.4vw, 28px);
+  letter-spacing: 2px;
+  margin: 6px 0 14px;
+}
+.mm-text { line-height: 1.7; font-size: 15px; color: #e6e9f5; }
+.mm-fact {
+  margin-top: 14px;
+  padding-left: 12px;
+  border-left: 2px solid #c7ff35;
+  color: #c9cfe6;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.mm-meta { margin: 18px 0; display: grid; gap: 10px; }
+.mm-meta dt { font-family: "Orbitron", sans-serif; font-size: 9px; letter-spacing: 2px; color: #7f88ad; }
+.mm-meta dd { font-size: 14px; margin-top: 3px; }
+
+.mm-link {
+  color: #c7ff35;
+  text-decoration: none;
+  font-family: "Orbitron", sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+.mm-link:hover { text-decoration: underline; }
+
+.mm-controls {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.mm-controls button {
+  flex: 1;
+  min-width: 90px;
+  background: none;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  padding: 10px 12px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.mm-controls button:hover { border-color: #c7ff35; color: #c7ff35; }
+.mm-controls .mm-play { background: #c7ff35; color: #050711; border-color: #c7ff35; flex: 2; }
+.mm-controls .mm-play:hover { color: #050711; filter: brightness(1.1); }
+
+/* ---------- timeline ---------- */
+
+.mm-timeline {
+  margin-top: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  background: rgba(8, 10, 24, 0.7);
+}
+
+.mm-track {
+  position: relative;
+  overflow-x: auto;
+  padding: 22px 12px 18px;
+  scrollbar-width: thin;
+  scrollbar-color: #3a4a8a transparent;
+}
+.mm-track ol { list-style: none; display: flex; width: max-content; position: relative; }
+.mm-track ol::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 31px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(199, 255, 53, 0.5), rgba(199, 255, 53, 0.5), transparent);
+}
+.mm-track li { position: relative; }
+
+.mm-stop {
+  width: 132px;
+  background: none;
+  border: none;
+  color: #a9b0c5;
+  cursor: pointer;
+  padding: 0 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  font-family: inherit;
+}
+.mm-stop-year { font-family: "Orbitron", sans-serif; font-size: 13px; letter-spacing: 1px; }
+.mm-stop-dot {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #050711;
+  border: 2px solid var(--c);
+  transition: 0.25s;
+}
+.mm-stop-name { font-size: 13px; font-weight: 600; color: #e6e9f5; line-height: 1.3; }
+.mm-stop-type { font-size: 11px; color: #7f88ad; }
+.mm-stop:hover .mm-stop-dot { transform: scale(1.3); }
+.mm-stop.active .mm-stop-year { color: #c7ff35; }
+.mm-stop.active .mm-stop-dot { background: var(--c); transform: scale(1.5); box-shadow: 0 0 12px var(--c); }
+.mm-stop.active .mm-stop-name { color: #fff; }
+.mm-stop:focus-visible, .mm-close:focus-visible, .mm-controls button:focus-visible {
+  outline: 2px solid #c7ff35;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.mm-note { margin-top: 20px; font-size: 12px; color: #7f88ad; text-align: center; }
+.mm-credits {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  justify-content: center;
+  font-size: 11px;
+  color: #7f88ad;
+}
+.mm-credits span { font-family: "Orbitron", sans-serif; letter-spacing: 2px; }
+.mm-credits a { color: #a9b0c5; text-decoration: none; }
+.mm-credits a:hover { color: #c7ff35; }
+.mm-credits p { flex-basis: 100%; text-align: center; }
+
+@media (max-width: 920px) {
+  .mm-stage { grid-template-columns: 1fr; }
+  .mm-crumb { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-overlay, .mm-detail, .mm-pin-wrap.is-active .mm-pin { animation: none; }
+}

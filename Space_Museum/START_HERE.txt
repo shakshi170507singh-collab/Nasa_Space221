@@ -1,0 +1,9 @@
+HOW TO RUN (VS Code, Windows)
+1. Extract the zip, open the folder "Space_Museum" in VS Code.
+2. Open a terminal and run:
+     cd client
+     npm run dev
+3. Open the link it prints (usually http://localhost:5173).
+
+Dependencies are already included in client/node_modules, so you do NOT need to run npm install.
+(Needs Node.js 20+ and Windows 64-bit.)

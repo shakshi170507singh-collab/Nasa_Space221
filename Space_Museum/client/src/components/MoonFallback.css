@@ -1,0 +1,13 @@
+.moon-load-fallback {
+  min-height: 32rem;
+  display: grid;
+  place-items: center;
+  padding: 4rem 1.5rem;
+  box-sizing: border-box;
+  background: #050711;
+  color: #aab0c1;
+  font: 600 0.75rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.16em;
+  text-align: center;
+  text-transform: uppercase;
+}
