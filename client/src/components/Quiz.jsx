@@ -1,70 +1,89 @@
-
-import { useState } from "react";
+import React, { useState } from "react";
 import "./Quiz.css";
 
 const questions = [
   {
-    question: "What was the Lunar Roving Vehicle (LRV) designed for?",
+    question: "What was the name of the Apollo 11 Lunar Module?",
+    options: ["Falcon", "Eagle", "Columbia", "Challenger"],
+    answer: 1,
+    fact: "The Apollo 11 Lunar Module was named Eagle. It carried astronauts Neil Armstrong and Buzz Aldrin to the lunar surface."
+  },
+  {
+    question: "Where did the Apollo 11 Lunar Module land?",
     options: [
-      "Flying between planets",
-      "Transporting astronauts across the Moon",
-      "Collecting satellites",
-      "Landing spacecraft"
+      "Ocean of Storms",
+      "Sea of Tranquility",
+      "Lunar South Pole",
+      "Sea of Serenity"
     ],
     answer: 1,
-    fact: "The LRV helped astronauts travel farther across the lunar surface and explore more areas."
+    fact: "Eagle landed in the Sea of Tranquility, a region on the near side of the Moon."
   },
   {
-    question: "How many Lunar Roving Vehicles were driven on the Moon?",
-    options: ["One", "Two", "Three", "Five"],
-    answer: 2,
-    fact: "Three LRVs were used during Apollo 15, Apollo 16 and Apollo 17."
-  },
-  {
-    question: "Which Apollo mission first used the Lunar Rover?",
-    options: ["Apollo 11", "Apollo 13", "Apollo 15", "Apollo 17"],
-    answer: 2,
-    fact: "Apollo 15 was the first mission to take a Lunar Rover to the Moon in 1971."
-  },
-  {
-    question: "What powered the Lunar Rover?",
+    question: "On which date did Apollo 11 land on the Moon?",
     options: [
-      "Solar panels",
-      "Petrol",
-      "Nuclear energy",
-      "Electric batteries"
-    ],
-    answer: 3,
-    fact: "The rover used two 36-volt silver-zinc batteries to power its systems."
-  },
-  {
-    question: "How many wheels did the Lunar Rover have?",
-    options: ["Two", "Four", "Six", "Eight"],
-    answer: 1,
-    fact: "The LRV was a lightweight four-wheeled electric vehicle."
-  },
-  {
-    question: "What happened to the three Lunar Rovers after their missions?",
-    options: [
-      "They returned to Earth",
-      "They entered lunar orbit",
-      "They were left on the Moon",
-      "They were launched towards Mars"
+      "16 July 1969",
+      "19 July 1969",
+      "20 July 1969",
+      "24 July 1969"
     ],
     answer: 2,
-    fact: "All three Apollo mission rovers remained on the lunar surface."
+    fact: "The Apollo 11 Lunar Module landed on the Moon on 20 July 1969."
   },
   {
-    question: "What was the approximate mass of an empty Lunar Rover?",
-    options: ["50 kg", "100 kg", "210 kg", "500 kg"],
+    question: "What was the name given to Apollo 11's landing site?",
+    options: [
+      "Tranquility Base",
+      "Eagle Station",
+      "Apollo Point",
+      "Lunar Gateway"
+    ],
+    answer: 0,
+    fact: "After landing, the crew referred to their landing site as Tranquility Base."
+  },
+  {
+    question: "Which part of the Lunar Module was left on the Moon?",
+    options: [
+      "The ascent stage",
+      "The crew cabin",
+      "The descent stage",
+      "The docking module"
+    ],
     answer: 2,
-    fact: "NASA's lunar rover reference gives its empty mass as approximately 210 kg."
+    fact: "The descent stage remained on the lunar surface after the ascent stage departed."
   },
   {
-    question: "Which Apollo mission used the final Lunar Rover?",
-    options: ["Apollo 12", "Apollo 14", "Apollo 16", "Apollo 17"],
-    answer: 3,
-    fact: "Apollo 17 was the last Apollo mission to use a Lunar Roving Vehicle."
+    question: "What is the NSSDCA spacecraft identifier for Eagle?",
+    options: [
+      "1969-059A",
+      "1969-059B",
+      "1969-059C",
+      "1969-060C"
+    ],
+    answer: 2,
+    fact: "NASA's NSSDCA record identifies the Apollo 11 Lunar Module as 1969-059C."
+  },
+  {
+    question: "Why is the landing-site marker on the Moon map described as approximate?",
+    options: [
+      "The Moon map is a NASA photograph of the near side",
+      "The landing site changes every year",
+      "The map shows the far side of the Moon",
+      "The marker represents the Apollo 12 landing"
+    ],
+    answer: 0,
+    fact: "The exhibit uses a NASA photograph of the Moon's near side, and the marker indicates an approximate landing location."
+  },
+  {
+    question: "Why is the Lunar Module displayed larger than life in the exhibit?",
+    options: [
+      "To show its actual size",
+      "To make it look like a rocket",
+      "To help visitors see its details",
+      "To represent its size in lunar orbit"
+    ],
+    answer: 2,
+    fact: "The lander is drawn larger than life so visitors can clearly see its features and details."
   }
 ];
 
@@ -115,12 +134,13 @@ function Quiz() {
       <main className="quiz-container">
 
         <div className="quiz-intro">
-          <span className="quiz-label">NASA • APOLLO MISSIONS</span>
+          <span className="quiz-label">NASA • APOLLO 11 MISSION</span>
           <h1>
-            THE LUNAR <span>ROVER</span> QUIZ
+            THE <span>EAGLE</span> QUIZ
           </h1>
           <p>
-            Think you know the machines that explored the Moon?
+            How much do you know about the Lunar Module
+            that carried humanity to the Moon?
             Test your knowledge and complete your mission.
           </p>
         </div>
@@ -168,10 +188,13 @@ function Quiz() {
                     <span className="option-letter">
                       {String.fromCharCode(65 + index)}
                     </span>
+
                     <span>{option}</span>
+
                     {selected !== null && index === question.answer && (
                       <span className="option-status">✓</span>
                     )}
+
                     {selected === index && index !== question.answer && (
                       <span className="option-status">✕</span>
                     )}
@@ -187,6 +210,7 @@ function Quiz() {
                     ? "CORRECT! MISSION ACCOMPLISHED."
                     : "NOT QUITE! KEEP EXPLORING."}
                 </strong>
+
                 <p>{question.fact}</p>
               </div>
             )}
@@ -224,8 +248,8 @@ function Quiz() {
             <p className="result-message">
               You answered {score} out of {questions.length} questions correctly.
               {score === questions.length
-                ? " Perfect mission! You're a Lunar Rover expert."
-                : " There's always more to discover about the universe."}
+                ? " Perfect mission! You're an Apollo 11 expert."
+                : " There's always more to discover about the Moon."}
             </p>
 
             <button
@@ -239,7 +263,7 @@ function Quiz() {
         )}
 
         <p className="quiz-source">
-          BASED ON NASA'S APOLLO LUNAR ROVING VEHICLE ARCHIVE
+          BASED ON NASA'S APOLLO 11 LUNAR MODULE EXHIBIT
         </p>
 
       </main>
